@@ -117,19 +117,5 @@ def test_source_year_after_target_blocks():
     with pytest.raises(ValueError,match="Invalid year sequence"):
         grade(source_season=2024)
 
-
-def test_pinned_publication_receipt_is_research_only():
-    import json
-    from pathlib import Path
-    root=Path(__file__).resolve().parents[1]
-    r=json.loads((root/"references/phase2u/2ub-readonly-results-2026-10-15.json").read_text())
-    assert r["totals"]["paired_retrospective_fbs_fbs_candidate_games"]==6581
-    assert r["totals"]["retrospective_fbs_fbs_box_candidate_team_rows"]==13259
-    assert r["totals"]["partial_fbs_fbs_box_games"]==97
-    assert r["source"]["github_actions_run_id"]==38824442315
-    assert r["source"]["mode"]=="r2_readonly"
-    assert not r["training_certified"] and not r["production_certified"]
-    rows=r["seasons"]
-    assert len(rows)==9
-    assert sum(s["paired_retrospective_fbs_fbs_candidate_games"] for s in rows)==6581
-    assert sum(s["partial_fbs_fbs_box_games"] for s in rows)==97
+# The private source repository separately tests its R2-backed publication receipt.
+# That receipt is excluded from this synthetic-only public code sample.
